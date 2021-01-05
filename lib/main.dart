@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: 'Poppins',
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.green,
       ),
       routes: routes,
       debugShowCheckedModeBanner: false,
