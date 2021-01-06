@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 18,),
                     TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(borderSide: BorderSide()),
@@ -76,7 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 18,),
                     TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         labelText: 'Confirmation Password',
                         border: OutlineInputBorder(borderSide: BorderSide()),
