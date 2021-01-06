@@ -8,7 +8,11 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Text('Dashboard'),
       ),
-      body: Container(),
+      body: Center(
+        child: Text(
+          'Welcome to Dashboard!'
+        ),
+      ),
     );
   }
 }
