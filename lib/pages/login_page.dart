@@ -56,22 +56,29 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                         labelText: 'E-Mail Address',
                         border: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'email@example.com',
                       ),
-                      validator: (val) => val.length == 0 ? 'Enter Name' : null,
+                      validator: (val) => val.length == 0 ? 'Please enter your e-mail' : null,
                     ),
                     SizedBox(height: 18,),
                     TextFormField(
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                          labelText: 'Password',
-                          border: OutlineInputBorder(borderSide: BorderSide()),
+                        labelText: 'Password',
+                        border: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'Enter password',
                       ),
                       obscureText: true,
-                      validator: (val) => val.length == 0 ? 'Enter Name' : null,
+                      validator: (val) => val.length == 0 ? 'Please enter a password' : null,
                     ),
                     SizedBox(height: 48,),
+                    // Log-in Button
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+
+                        }
+                      },
                       child: Text(
                         'Log In',
                         style: TextStyle(
@@ -97,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 6,),
+                    // Register Button
                     MaterialButton(
                       onPressed: () {
                         Navigator.pushNamed(

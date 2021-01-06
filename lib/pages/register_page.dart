@@ -52,8 +52,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Full Name',
                         border: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'Enter your name',
                       ),
-                      validator: (val) => val.length == 0 ? 'Enter Name' : null,
+                      validator: (val) => val.length == 0 ? 'Please enter your name' : null,
                     ),
                     SizedBox(height: 18,),
                     TextFormField(
@@ -61,8 +62,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'E-Mail Address',
                         border: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'email@example.com',
                       ),
-                      validator: (val) => val.length == 0 ? 'Enter Name' : null,
+                      validator: (val) => val.length == 0 ? 'Please enter your e-mail' : null,
                     ),
                     SizedBox(height: 18,),
                     TextFormField(
@@ -70,9 +72,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'Enter password',
                       ),
                       obscureText: true,
-                      validator: (val) => val.length == 0 ? 'Enter Name' : null,
+                      validator: (val) => val.length == 0 ? 'Please enter a password' : null,
                     ),
                     SizedBox(height: 18,),
                     TextFormField(
@@ -80,11 +83,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Confirmation Password',
                         border: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'Enter confirmation password',
                       ),
                       obscureText: true,
-                      validator: (val) => val.length == 0 ? 'Enter Name' : null,
+                      validator: (val) => val.length == 0 ? 'Please enter confirmation password' : null,
                     ),
                     SizedBox(height: 48,),
+                    // Register Button
                     MaterialButton(
                       onPressed: () {},
                       child: Text(
