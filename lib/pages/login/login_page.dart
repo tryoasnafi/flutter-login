@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_login/models/user.dart';
-import 'package:flutter_login/pages/login_response.dart';
+import 'package:flutter_login/pages/login/login_response.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,21 +11,20 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> implements LoginCallBack{
   final _formKey = GlobalKey<FormState>();
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
   String email, password;
-
-  // Redirect to register page
-  void _register() => Navigator.of(context).pushNamed('/register');
-
+  
   LoginResponse _response;
 
   _LoginPageState() {
     _response = LoginResponse(this);
   }
 
+  // Redirect to register page
+  void _register() => Navigator.of(context).pushNamed('/register');
+
   void _submit() {
     final form = _formKey.currentState;
-
     if (form.validate()) {
       setState(() {
         form.save();
@@ -35,7 +34,7 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack{
   }
 
   void _showSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(new SnackBar(
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(text),
     ));
   }
@@ -52,7 +51,7 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -191,7 +190,7 @@ class _LoginPageState extends State<LoginPage> implements LoginCallBack{
   void onLoginSuccess(User user) {
     if(user != null){
       Navigator.of(context).pushNamed("/home");
-    }else{
+    } else {
       _showSnackBar("Login gagal, user account tidak terdaftar");
     }
   }
