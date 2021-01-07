@@ -1,17 +1,22 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/user.dart';
 
 class DatabaseHelper {
+  static final DatabaseHelper _instance = new DatabaseHelper.internal();
+  factory DatabaseHelper() => _instance;
+
   static Database _db;
   final String dbName = 'main.db';
   final String tableUser = 'users';
   final String columnId = 'id';
   final String columnName = 'name';
-  final String columnEmail = 'username';
+  final String columnEmail = 'email';
   final String columnPassword = 'password';
 
   // Check database is created or not
@@ -23,10 +28,12 @@ class DatabaseHelper {
     return _db;
   }
 
+  DatabaseHelper.internal();
+
   initDb() async {
     // Get a location using getDatabasesPath
-    var databasePath = await getDatabasesPath();
-    String path = join(databasePath, dbName);
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentDirectory.path, dbName);
     // When creating the db, create the table
     var ourDb = await openDatabase(path, version: 1, onCreate: _onCreate);
     return ourDb;
@@ -40,16 +47,11 @@ class DatabaseHelper {
   }
 
   // Insert user
-  Future<User> insert(User user) async {
+  Future<int> insert(User user) async {
     var dbClient = await db;
-    user.id = await dbClient.insert(tableUser, user.toMap());
-    return user;
-  }
-
-  // Update user
-  Future<int> update(User user) async {
-    var dbClient = await db;
-    return await dbClient.update(tableUser, user.toMap(), where: '$columnId = ?', whereArgs: [user.id]);
+    var res = await dbClient.insert(tableUser, user.toMap());
+    print(res);
+    return res;
   }
 
   // Delete user

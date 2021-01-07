@@ -1,18 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_login/models/user.dart';
+import 'package:flutter_login/pages/login_response.dart';
 
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> implements LoginCallBack{
   final _formKey = GlobalKey<FormState>();
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  String email, password;
+
+  // Redirect to register page
+  void _register() => Navigator.of(context).pushNamed('/register');
+
+  LoginResponse _response;
+
+  _LoginPageState() {
+    _response = LoginResponse(this);
+  }
+
+  void _submit() {
+    final form = _formKey.currentState;
+
+    if (form.validate()) {
+      setState(() {
+        form.save();
+        _response.doLogin(email, password);
+      });
+    }
+  }
+
+  void _showSnackBar(String text) {
+    scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(text),
+    ));
+  }
+
+  String _validateEmail(String value) {
+    Pattern pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value) || value == null) ? 'Enter a valid email address' : null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -58,9 +98,12 @@ class _LoginPageState extends State<LoginPage> {
                         border: OutlineInputBorder(borderSide: BorderSide()),
                         hintText: 'email@example.com',
                       ),
-                      validator: (val) => val.length == 0 ? 'Please enter your e-mail' : null,
+                      validator: _validateEmail,
+                      onSaved: (val) => email = val,
                     ),
-                    SizedBox(height: 18,),
+                    SizedBox(
+                      height: 18,
+                    ),
                     TextFormField(
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -69,16 +112,16 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: 'Enter password',
                       ),
                       obscureText: true,
-                      validator: (val) => val.length == 0 ? 'Please enter a password' : null,
+                      validator: (val) =>
+                          val.length == 0 ? 'Please enter a password' : null,
+                      onSaved: (val) => password = val,
                     ),
-                    SizedBox(height: 48,),
+                    SizedBox(
+                      height: 48,
+                    ),
                     // Log-in Button
                     MaterialButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-
-                        }
-                      },
+                      onPressed: _submit,
                       child: Text(
                         'Log In',
                         style: TextStyle(
@@ -98,20 +141,19 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    SizedBox(height: 6,),
+                    SizedBox(
+                      height: 6,
+                    ),
                     Text(
                       "or",
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 6,),
+                    SizedBox(
+                      height: 6,
+                    ),
                     // Register Button
                     MaterialButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/register',
-                        );
-                      },
+                      onPressed: _register,
                       child: Text(
                         'Register',
                         style: TextStyle(
@@ -138,5 +180,19 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void onLoginError(String error) {
+    _showSnackBar(error);
+  }
+
+  @override
+  void onLoginSuccess(User user) {
+    if(user != null){
+      Navigator.of(context).pushNamed("/home");
+    }else{
+      _showSnackBar("Login gagal, user account tidak terdaftar");
+    }
   }
 }
